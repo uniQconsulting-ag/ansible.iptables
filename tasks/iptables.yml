@@ -1,0 +1,19 @@
+---
+
+- name: generate iptables config file
+  template:
+    src: iptables.j2
+    dest: /etc/sysconfig/iptables
+  tags:
+  - generate_config
+
+- name: enable and restart iptables
+  service:
+    name: iptables
+    enabled: yes
+    state: "restarted"
+  tags:
+  - restart_service
+
+
+...

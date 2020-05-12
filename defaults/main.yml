@@ -1,0 +1,9 @@
+---
+
+iptables_open_ports: 
+- port: 22
+  protocol: tcp
+iptables_geoip_maps: []
+iptables_port_forwarding: []
+iptables_snat_interfaces: []
+...

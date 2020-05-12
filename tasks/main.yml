@@ -1,0 +1,36 @@
+---
+
+- name: import include vars tasks
+  import_tasks: 'include-vars.yml'
+  tags:
+  - role_iptables
+  - includes
+
+- name: import iptables tasks
+  import_tasks: 'iptables.yml'
+  tags:
+  - role_iptables
+  - iptables
+
+- name: Copy uQcCheck File
+  local_action: 
+    module: copy
+    src: tests/uQcCheck_iptables.yml
+    dest: "{{ playbook_dir }}/uQcCheck/uQcCheck_iptables.yml"
+  ignore_errors: yes
+  tags:
+  - role_iptables
+  - installation
+
+- name: Register uQcCheck File
+  local_action: 
+    module: lineinfile
+    line: "- import_playbook: uQcCheck/uQcCheck_iptables.yml"
+    path: "{{ playbook_dir }}/task_99_uQcCheck.yml"
+  ignore_errors: yes
+  tags:
+  - role_iptables
+  - installation
+  
+
+...

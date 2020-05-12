@@ -1,0 +1,63 @@
+##########
+# Firewall
+##########
+
+# Main Settings
+iptables_lan_ip: 10.0.10.1
+iptables_lan_interface: eth1
+iptables_wan_ip: 123.4.56.78
+iptables_wan_interface: eth0
+
+iptables_snat_interfaces:
+- interface: eth1
+  ip: 10.0.10.1
+
+# GeoIP Sets
+iptables_geoip_maps:
+- name: west_europe
+  type: allow
+  countries:
+  - CH
+  - DE
+  - FR
+  - IT
+  - LI
+  
+- name: no_hackers
+  type: deny
+  countries:
+  - CN
+  - RU
+
+# Ports & Forwarding
+iptables_open_ports:
+- port: 22
+  protocol: tcp
+  geoip_map: west_europe
+- port: 2121
+  protocol: tcp
+  geoip_map: west_europe
+- port: 80
+  protocol: tcp
+  geoip_map: no_hackers
+- port: 443
+  protocol: tcp
+  geoip_map: no_hackers
+- port: 8443
+  protocol: tcp
+  geoip_map: west_europe
+- port: 53
+  protocol: tcp
+  source: 10.0.10.0/24
+
+iptables_port_forwarding:
+- src_port: 8443
+  dest_ip: 10.0.10.20
+  dest_port: 8443
+  dest_interface: "{{ iptables_lan_interface }}"
+  protocol: tcp
+  src_interface: "{{ iptables_wan_interface }}"
+  src_ip: "{{ iptables_wan_ip }}"
+
+...
+

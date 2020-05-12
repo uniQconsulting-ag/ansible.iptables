@@ -1,0 +1,6 @@
+#!/usr/bin/ansible-playbook 
+---
+- name: ssh/sshd setup
+  hosts: localhost
+  roles:
+  - uniqconsulting.iptables

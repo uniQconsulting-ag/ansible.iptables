@@ -1,0 +1,2 @@
+- Check Services: `systemctl status iptables`
+- iptable-rules: `/etc/sysconfig/iptables`
